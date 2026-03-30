@@ -1,0 +1,9 @@
+body {
+  background-image: url(../images/lofy-wallpaper.webp);
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100vh;
+  font-family: "bamboo", sans-serif;
+  font-weight: 400;
+  
+}

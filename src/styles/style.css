@@ -1,0 +1,99 @@
+@import url("./normalize.css");
+@import url("./fonts.css");
+@import url("./variables.css");
+@import url("./global.css");
+
+.todo {
+  max-width: 770px;
+  margin-inline: auto;
+}
+
+.todo__title {
+  font-size: clamp(1.75rem, 1.1rem + 2.3vw, 4rem);
+  line-height: 1;
+  background-image: var(--color-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-fill-color: transparent;
+}
+
+.todo__title-wrapper {
+  background-color: var(--color-tranclucent);
+  backdrop-filter: var(--blur);
+  margin-inline: auto;
+  max-width: 430px;
+  height: 90px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: var(--border);
+  border-radius: var(--border-radius);
+  margin-top: 60px;
+}
+
+.todo__form {
+  margin-top: 44px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  
+}
+
+.todo-form__input {
+  width: 600px;
+  height: 82px;
+
+  background-color: var(--color-tranclucent);
+  backdrop-filter: var(--blur);
+  border: var(--border);
+  border-radius: 7px;
+  color: var(--color-light);
+
+  padding-left: 20px;
+  font-size: 24px;
+
+  &:focus,
+  &:focus-visible {
+    outline: 2px solid var(--color-light);
+  }
+}
+
+.todo-form__button {
+  border-radius: 50%;
+  border: none;
+  background-color: transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition-duration: var(--transition-duration);
+  
+
+  &::after {
+    content: "";
+    width: 90px;
+    aspect-ratio: 1;
+    background: url("../icons/Plus.svg"), var(--color-tranclucent);
+    backdrop-filter: var(--blur);
+    background-size: cover;
+    border: var(--border);
+    border-radius: 50%;
+  }
+
+  &:hover {
+    scale: 1.05;
+  }
+}
+
+.todo__list {
+  display: grid;
+  row-gap: 24px;
+}
+.todo__list-item {
+  width: 730px;
+  height: 70px;
+  border-radius: var(--border-radius);
+  border: var(--border);
+  background-color: var(--color-tranclucent);
+  backdrop-filter: var(--blur);
+}

@@ -1,0 +1,11 @@
+:root {
+  --color-light: #ffffff;
+  --color-gradient: linear-gradient(180deg, #C4564D 0%, #864B49 100%);
+  --border-radius: 85px;
+  --border: 1px solid var(--color-light);
+
+  --blur: blur(10px);
+  --color-tranclucent: rgba(255, 255, 255, 0.3);
+
+  --transition-duration: 0.2s;
+} 
