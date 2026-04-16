@@ -37,7 +37,6 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  
 }
 
 .todo-form__input {
@@ -67,7 +66,6 @@
   justify-content: center;
   align-items: center;
   transition-duration: var(--transition-duration);
-  
 
   &::after {
     content: "";
@@ -88,6 +86,8 @@
 .todo__list {
   display: grid;
   row-gap: 24px;
+
+  margin-top: 70px;
 }
 .todo__list-item {
   width: 730px;
@@ -96,4 +96,9 @@
   border: var(--border);
   background-color: var(--color-tranclucent);
   backdrop-filter: var(--blur);
+
+  font-size: 20px;
+  color: var(--color-light);
+  align-content: center;
+  padding-left: 50px;
 }
