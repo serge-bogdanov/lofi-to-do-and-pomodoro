@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="./styles/style.css">
+  <script src="script.js" defer></script>
   <title>Document</title>
 </head>
 <body>
@@ -14,13 +15,13 @@
       </h1>
     </div>
     <form action="" class="todo__form todo-form">
-      <input type="text" class="todo-form__input">
-      <button class="todo-form__button" type="submit"></button>
+      <input type="text" class="todo-form__input" placeholder="введите текст">
+      <input class="todo-form__button" type="submit">
     </form>
     <ul class="todo__list">
-      <li class="todo__list-item todo-item">
+      <li class="todo__list-item">
         dwededwefrfwefwefwefwefwefwefwfwefwfwe
-        <button class="todo-item-button" type="submit">X</button>
+        <button class="todo-item-button" type="submit" data-delete="delete">X</button>
       </li>
     </ul>
   </div>
