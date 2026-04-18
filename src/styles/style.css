@@ -59,23 +59,23 @@
 }
 
 .todo-form__button {
-  border-radius: 50%;
   border: none;
   background-color: transparent;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   transition-duration: var(--transition-duration);
+  position: relative;
 
   &::after {
     content: "";
     width: 90px;
-    aspect-ratio: 1;
-    background: url("../icons/Plus.svg"), var(--color-tranclucent);
-    backdrop-filter: var(--blur);
+    height: 90px;
+    background: url("../icons/Plus.svg");
     background-size: cover;
+    backdrop-filter: var(--blur);
     border: var(--border);
     border-radius: 50%;
+    position: absolute;
+    top: 0;
+    left: 0;
   }
 
   &:hover {

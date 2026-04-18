@@ -22,6 +22,7 @@ function loadTodos() {
     list.append(createTodoElement(todo))
   }
 }
+loadTodos()
 
 function createTodoElement(text) {
   let item = document.createElement("li");
@@ -63,7 +64,19 @@ function deleteItem(event) {
     event.target.hasAttribute("data-action") &&
     event.target.getAttribute("data-action") === "delete"
   ) {
-    event.target.parentNode.remove();
+    let listItem = event.target.closest("li")
+
+    let taskText = listItem.firstChild.textContent
+
+    listItem.remove()
+
+    let todos = getStorageTodos()
+    let index = todos.indexOf(taskText)
+
+    if (index !== -1) {и
+      todos.splice(index, 1)
+      saveTodos(todos)
+    }
 
   }
 
