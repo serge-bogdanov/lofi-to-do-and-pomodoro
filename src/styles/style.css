@@ -70,8 +70,7 @@
     content: "";
     width: 90px;
     height: 90px;
-    background-image: url("../icons/plus.svg");
-    background-size: cover;
+    background: url("../icons/plus.svg") center/cover no-repeat;
     backdrop-filter: var(--blur);
     border: var(--border);
     border-radius: 50%;
