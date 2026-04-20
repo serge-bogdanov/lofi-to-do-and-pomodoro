@@ -62,24 +62,26 @@
   border: none;
   background-color: transparent;
   transition-duration: var(--transition-duration);
-  position: relative;
+  display: flex;
+  justify-content: center;
+  
 
   &::after {
     content: "";
     width: 90px;
     height: 90px;
-    background: url("../icons/Plus.svg");
+    background: url("../icons/plus.svg");
     background-size: cover;
     backdrop-filter: var(--blur);
     border: var(--border);
     border-radius: 50%;
-    position: absolute;
-    top: 0;
-    left: 0;
   }
 
   &:hover {
-    scale: 1.05;
+    backdrop-filter: calc(var(--blur) + 5px);
+  }
+  &:active {
+    scale: 0.99;
   }
 }
 
@@ -99,6 +101,27 @@
 
   font-size: 20px;
   color: var(--color-light);
-  align-content: center;
-  padding-left: 50px;
+  padding-inline: 50px;
+  
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.todo-item__button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: transparent;
+  border: none;
+
+  &::after {
+    content: "";
+    width: 60px;
+    height: 42px;
+    background: url("../icons/bin.svg") center/cover no-repeat;
+  }
+  &:hover {
+    scale: 1.02;
+  }
 }

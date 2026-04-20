@@ -28,11 +28,13 @@ function createTodoElement(text) {
   let item = document.createElement("li");
   item.className = "todo__list-item";
 
-  let textNode = document.createTextNode(text);
-  item.appendChild(textNode);
+  let textSpan = document.createElement("span");
+  textSpan.className = "todo__list-text";
+  textSpan.appendChild(document.createTextNode(text))
+
+  item.appendChild(textSpan);
 
   let deleteButton = document.createElement("button");
-  deleteButton.appendChild(document.createTextNode("X"));
   deleteButton.className = "todo-item__button";
   deleteButton.dataset.action = "delete";
   item.appendChild(deleteButton)
@@ -73,7 +75,7 @@ function deleteItem(event) {
     let todos = getStorageTodos()
     let index = todos.indexOf(taskText)
 
-    if (index !== -1) {и
+    if (index !== -1) {
       todos.splice(index, 1)
       saveTodos(todos)
     }
