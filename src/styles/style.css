@@ -105,7 +105,10 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+
+  transition-duration: var(--transition-duration);
 }
+
 
 .todo-item__button {
   display: flex;
@@ -113,7 +116,7 @@
   align-items: center;
   background-color: transparent;
   border: none;
-
+  
   &::after {
     content: "";
     width: 60px;
@@ -123,4 +126,59 @@
   &:hover {
     scale: 1.02;
   }
+}
+
+.todo-item__actions {
+  display: flex;
+  align-items: center;
+  column-gap: 10px;
+}
+
+.checked-item {
+  text-decoration: line-through;
+  opacity: 0.7;
+}
+.checkbox {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  width: 55px;
+  height: 55px;
+}
+.checkbox__real {
+  display: none;
+}
+.checkbox__custom {
+  width: 35px;
+  height: 35px;
+  border: 3px solid var(--color-light);
+  border-radius: 50%;
+  position: relative;
+}
+
+.checkbox__real:checked + .checkbox__custom::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+  background: url("../icons/checkbox.svg") center/cover no-repeat;
+  width: 40px;
+  height: 40px;
+}
+
+.todo__list-item--removing {
+    animation: fadeOut 0.3s ease-out forwards;
+}
+
+@keyframes fadeOut {
+    0% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+    100% {
+        opacity: 0;
+        transform: translateX(20px);
+    }
 }

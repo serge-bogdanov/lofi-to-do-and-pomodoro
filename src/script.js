@@ -10,19 +10,44 @@ function getStorageTodos() {
   }
   return JSON.parse(storage);
 }
+function getStorageCheckedTodos() {
+  let storage = localStorage.getItem("checkedTodos");
+  if (storage === null) {
+    return [];
+  }
+  return JSON.parse(storage);
+}
 
 function saveTodos(todos) {
   let jsonStorage = JSON.stringify(todos);
   localStorage.setItem("todos", jsonStorage);
 }
+function saveCheckedTodos(todos) {
+  let jsonStorage = JSON.stringify(todos);
+  localStorage.setItem("checkedTodos", jsonStorage);
+}
 
 function loadTodos() {
   let todos = getStorageTodos();
   for (const todo of todos) {
-    list.append(createTodoElement(todo))
+    list.append(createTodoElement(todo));
+  }
+
+  let checkedTodos = getStorageCheckedTodos();
+  for (const checkedTodo of checkedTodos) {
+    let item = createTodoElement(checkedTodo);
+
+    item.classList.add("checked-item");
+    let checkbox = item.querySelector(".checkbox__real");
+    if (checkbox) {
+      checkbox.checked = true;
+    }
+
+    list.append(item);
   }
 }
-loadTodos()
+
+loadTodos();
 
 function createTodoElement(text) {
   let item = document.createElement("li");
@@ -30,18 +55,33 @@ function createTodoElement(text) {
 
   let textSpan = document.createElement("span");
   textSpan.className = "todo__list-text";
-  textSpan.appendChild(document.createTextNode(text))
-
+  textSpan.appendChild(document.createTextNode(text));
   item.appendChild(textSpan);
+
+  let actionsWrapper = document.createElement("div");
+  actionsWrapper.className = "todo-item__actions";
+  item.appendChild(actionsWrapper);
+
+  let checkbox = document.createElement("label");
+  checkbox.className = "todo-item__checkbox checkbox";
+  actionsWrapper.appendChild(checkbox);
+
+  let checkboxReal = document.createElement("input");
+  checkboxReal.className = "checkbox__real";
+  checkboxReal.type = "checkbox";
+  checkbox.appendChild(checkboxReal);
+
+  let checkboxCustom = document.createElement("span");
+  checkboxCustom.className = "checkbox__custom";
+  checkbox.appendChild(checkboxCustom);
 
   let deleteButton = document.createElement("button");
   deleteButton.className = "todo-item__button";
   deleteButton.dataset.action = "delete";
-  item.appendChild(deleteButton)
+  actionsWrapper.appendChild(deleteButton);
 
   return item;
 }
-
 
 function addItem(event) {
   event.preventDefault();
@@ -50,7 +90,7 @@ function addItem(event) {
 
   if (inputText !== "") {
     list.prepend(createTodoElement(inputText));
-    
+
     let todos = getStorageTodos();
     todos.push(inputText);
     saveTodos(todos);
@@ -66,20 +106,69 @@ function deleteItem(event) {
     event.target.hasAttribute("data-action") &&
     event.target.getAttribute("data-action") === "delete"
   ) {
-    let listItem = event.target.closest("li")
+    let listItem = event.target.closest("li");
 
-    let taskText = listItem.firstChild.textContent
+    let taskText = listItem.querySelector(".todo__list-text").textContent;
 
-    listItem.remove()
+    listItem.classList.add("todo__list-item--removing");
 
-    let todos = getStorageTodos()
-    let index = todos.indexOf(taskText)
+    listItem.addEventListener("animationend", function() {
+    listItem.remove();
 
-    if (index !== -1) {
-      todos.splice(index, 1)
-      saveTodos(todos)
+    let todos = getStorageTodos();
+    let checkedTodos = getStorageCheckedTodos();
+
+    let indexInTodos = todos.indexOf(taskText);
+    let indexInChecked = checkedTodos.indexOf(taskText);
+
+    if (indexInTodos !== -1) {
+      todos.splice(indexInTodos, 1);
+      saveTodos(todos);
+    } else if (indexInChecked !== -1) {
+      checkedTodos.splice(indexInChecked, 1);
+      saveCheckedTodos(checkedTodos);
     }
+  })
+}
+}
 
+list.addEventListener("change", checkedItem);
+
+function checkedItem(event) {
+  if (event.target.classList.contains("checkbox__real")) {
+    let listItem = event.target.closest("li");
+
+    let taskText = listItem.querySelector(".todo__list-text").textContent;
+
+    listItem.classList.toggle("checked-item");
+
+    let todos = getStorageTodos();
+    let checkedTodos = getStorageCheckedTodos();
+
+    if (event.target.checked) {
+      let index = todos.indexOf(taskText);
+
+      list.append(listItem);
+
+      if (index !== -1) {
+        todos.splice(index, 1);
+        saveTodos(todos);
+      }
+
+      checkedTodos.push(taskText);
+      saveCheckedTodos(checkedTodos);
+    } else {
+      let index = checkedTodos.indexOf(taskText);
+
+      list.prepend(listItem);
+
+      if (index !== -1) {
+        checkedTodos.splice(index, 1);
+        saveCheckedTodos(checkedTodos);
+      }
+
+      todos.push(taskText);
+      saveTodos(todos);
+    }
   }
-
 }
