@@ -36,14 +36,15 @@ function loadTodos() {
   let checkedTodos = getStorageCheckedTodos();
   for (const checkedTodo of checkedTodos) {
     let item = createTodoElement(checkedTodo);
-
-    item.classList.add("checked-item");
+    list.append(item);
     let checkbox = item.querySelector(".checkbox__real");
     if (checkbox) {
       checkbox.checked = true;
     }
 
-    list.append(item);
+    setTimeout(() => {
+      item.classList.add("checked-item");
+    }, 20);
   }
 }
 
@@ -112,24 +113,24 @@ function deleteItem(event) {
 
     listItem.classList.add("todo__list-item--removing");
 
-    listItem.addEventListener("animationend", function() {
-    listItem.remove();
+    listItem.addEventListener("animationend", function () {
+      listItem.remove();
 
-    let todos = getStorageTodos();
-    let checkedTodos = getStorageCheckedTodos();
+      let todos = getStorageTodos();
+      let checkedTodos = getStorageCheckedTodos();
 
-    let indexInTodos = todos.indexOf(taskText);
-    let indexInChecked = checkedTodos.indexOf(taskText);
+      let indexInTodos = todos.indexOf(taskText);
+      let indexInChecked = checkedTodos.indexOf(taskText);
 
-    if (indexInTodos !== -1) {
-      todos.splice(indexInTodos, 1);
-      saveTodos(todos);
-    } else if (indexInChecked !== -1) {
-      checkedTodos.splice(indexInChecked, 1);
-      saveCheckedTodos(checkedTodos);
-    }
-  })
-}
+      if (indexInTodos !== -1) {
+        todos.splice(indexInTodos, 1);
+        saveTodos(todos);
+      } else if (indexInChecked !== -1) {
+        checkedTodos.splice(indexInChecked, 1);
+        saveCheckedTodos(checkedTodos);
+      }
+    });
+  }
 }
 
 list.addEventListener("change", checkedItem);
