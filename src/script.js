@@ -42,9 +42,7 @@ function loadTodos() {
       checkbox.checked = true;
     }
 
-    setTimeout(() => {
-      item.classList.add("checked-item");
-    }, 20);
+    item.classList.add("checked-item");
   }
 }
 
@@ -149,7 +147,32 @@ function checkedItem(event) {
     if (event.target.checked) {
       let index = todos.indexOf(taskText);
 
+      let positionYOld = listItem.getBoundingClientRect().top;
       list.append(listItem);
+      let positionYNew = listItem.getBoundingClientRect().top;
+
+      let differenceY = positionYOld - positionYNew;
+      if (differenceY !== 0) {
+        listItem.style.transform = `translateY(${differenceY}px)`;
+        listItem.style.transition = "none";
+
+        requestAnimationFrame(() => {
+          setTimeout(() => {
+            listItem.style.transition =
+              "transform 0.5s cubic-bezier(0.25, 0.1, 0.25, 1)";
+            listItem.style.transform = "translateY(0)";
+          }, 10);
+        });
+
+        listItem.addEventListener(
+          "transitionend",
+          function onEnd() {
+            listItem.style.transform = "";
+            listItem.style.transition = "";
+          },
+          { once: true },
+        );
+      }
 
       if (index !== -1) {
         todos.splice(index, 1);
@@ -161,7 +184,29 @@ function checkedItem(event) {
     } else {
       let index = checkedTodos.indexOf(taskText);
 
+      let positionYOld = listItem.getBoundingClientRect().top;
       list.prepend(listItem);
+      let positionYNew = listItem.getBoundingClientRect().top;
+      let differenceY = positionYOld - positionYNew;
+      if (differenceY !== 0) {
+        listItem.style.transform = `translateY(${differenceY}px)`;
+        listItem.style.transition = "none";
+
+        requestAnimationFrame(() => {
+          setTimeout(() => {
+            listItem.style.transition = "transform 0.5s ease";
+            listItem.style.transform = "translateY(0)";
+          }, 10);
+        });
+        listItem.addEventListener(
+          "transitionend",
+          function onEnd() {
+            listItem.style.transform = "";
+            listItem.style.transition = "";
+          },
+          { once: true },
+        );
+      }
 
       if (index !== -1) {
         checkedTodos.splice(index, 1);
