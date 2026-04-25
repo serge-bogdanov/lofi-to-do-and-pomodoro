@@ -1,4 +1,4 @@
-const form = document.querySelector(".todo-form");
+const form = document.querySelector(".header__form");
 const list = document.querySelector(".todo__list");
 
 form.addEventListener("submit", addItem);
@@ -84,7 +84,7 @@ function createTodoElement(text) {
 
 function addItem(event) {
   event.preventDefault();
-  let formInput = document.querySelector(".todo-form__input");
+  let formInput = document.querySelector(".header-form__input");
   let inputText = formInput.value;
 
   if (inputText !== "") {

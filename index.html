@@ -1,26 +1,35 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="./src/styles/style.css" />
-    <script src="src/script.js" defer></script>
-    <title>To-Do List by Bogdara</title>
-  </head>
-  <body>
-    <div class="todo">
-      <div class="todo__title-wrapper">
-        <h1 class="todo__title">To-Do List</h1>
-      </div>
-      <form action="" class="todo__form todo-form">
-        <input type="text" class="todo-form__input" />
-        <button
-          class="todo-form__button"
-          class="todo-form__button"
-          type="submit"
-        ></button>
-      </form>
-      <ul class="todo__list"></ul>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="./src/styles/style.css" />
+  <script src="src/script.js" defer></script>
+  <title>To-Do List by Bogdara</title>
+</head>
+
+<body>
+  <div class="todo">
+    <div class="todo__title-wrapper">
+      <h1 class="todo__title">To-Do List</h1>
     </div>
-  </body>
+    <header class="header">
+      <form action="" class="header__form header-form">
+        <input type="text" class="header-form__input" />
+        <button class="header-form__button" type="submit"></button>
+      </form>
+      <div class="header__filter filter">
+        <button class="filter__selected" type="button">All</button>
+        <ul class="filter__list filter-list">
+          <li class="filter-list__option">All</li>
+          <li class="filter-list__option">completed</li>
+          <li class="filter-list__option">incomplete</li>
+        </ul>
+      </div>
+    </header>
+    <ul class="todo__list"></ul>
+  </div>
+</body>
+
 </html>
