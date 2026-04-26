@@ -86,15 +86,15 @@ function addItem(event) {
   event.preventDefault();
   let formInput = document.querySelector(".header-form__input");
   let inputText = formInput.value;
-
+  
   if (inputText !== "") {
     list.prepend(createTodoElement(inputText));
-
     let todos = getStorageTodos();
     todos.push(inputText);
     saveTodos(todos);
-
+    
     formInput.value = "";
+    resetFilters()
   }
 }
 
@@ -219,15 +219,62 @@ function checkedItem(event) {
   }
 }
 
-const header = document.querySelector(".header")
+const filterButton = document.querySelector("[data-filter-form-button]");
 
-header.addEventListener("click", showFilterMenu)
+filterButton.addEventListener("click", showFilterMenu);
+const filterList = document.querySelector(".filter__list");
 
 function showFilterMenu(event) {
-  if (event.target.hasAttribute("data-header-form-button")) {
-    const filterList = document.querySelector(".filter__list")
+  event.target.classList.toggle("filter__button--active");
+  filterList.classList.toggle("filter__list--active");
+}
 
-    event.target.classList.toggle('filter__button--active')
-    filterList.classList.toggle('filter__list--active')
+filterList.addEventListener("click", selectFilter);
+
+
+function selectFilter(event) {
+  if (event.target.classList.contains("filter-list__option")) {
+    const allItems = [...list.querySelectorAll(".todo__list-item")];
+    let firstCheckedIndex = allItems.length;
+
+    for (let i = 0; i < allItems.length; i++) {
+      if (allItems[i].classList.contains("checked-item")) {
+        firstCheckedIndex = i;
+        break;
+      }
+    }
+    switch (event.target.id) {
+      case "all":
+        resetFilters()
+        break;
+
+      case "incomplete":
+        for (let i = 0; i < firstCheckedIndex; i++) {
+          allItems[i].classList.remove("todo__list-item--hidden");
+        }
+        for (let i = firstCheckedIndex; i < allItems.length; i++) {
+          allItems[i].classList.add("todo__list-item--hidden");
+        }
+        filterButton.textContent = "incomplete";
+        break;
+      case "completed":
+        for (let i = 0; i < firstCheckedIndex; i++) {
+          allItems[i].classList.add("todo__list-item--hidden");
+        }
+        for (let i = firstCheckedIndex; i < allItems.length; i++) {
+          allItems[i].classList.remove("todo__list-item--hidden");
+        }
+        filterButton.textContent = "completed";
+        break;
+      }
+    filterList.classList.remove("filter__list--active")
   }
+}
+
+function resetFilters() {
+  const allItems = [...list.querySelectorAll(".todo__list-item")];
+  for (let i = 0; i < allItems.length; i++) {
+    allItems[i].classList.remove("todo__list-item--hidden");
+  }
+  filterButton.textContent = "all";
 }

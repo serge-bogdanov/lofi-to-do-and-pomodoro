@@ -40,6 +40,8 @@
 }
 
 .header-form__input {
+  margin-left: -20px;
+
   width: 614px;
   height: 82px;
 
@@ -90,8 +92,6 @@
 }
 
 .header__filter {
-}
-.filter {
   position: relative;
 }
 
@@ -112,10 +112,12 @@
   padding-inline: 22px;
 }
 .filter__button {
+  position: relative;
+  z-index: 200;
   height: 62px;
   font-weight: 700;
   justify-content: space-between;
-  
+
   &::after {
     content: "";
     background: url(../icons/arrow.svg) center/cover no-repeat;
@@ -127,12 +129,18 @@
   transform: rotate(180deg);
 }
 
+
 .filter-list__option {
   height: 48px;
+  cursor: pointer;
+  transition-duration: 0.1s;
+
+  &:hover {
+    border-left-width: 5px;
+  }
 }
 .filter__list {
   position: absolute;
-  z-index: -1;
   top: 0%;
   opacity: 0;
   left: 0;
@@ -144,6 +152,9 @@
   opacity: 1;
 }
 
+.filter-list__option--active {
+  background-color: var(--color-light);
+}
 
 .todo__list {
   display: grid;
@@ -152,6 +163,7 @@
   margin-top: 70px;
   padding-bottom: 70px;
 }
+
 .todo__list-item {
   width: 730px;
   height: 70px;
@@ -170,6 +182,9 @@
 
   opacity: 1;
   transition: opacity 0.3s ease;
+}
+.todo__list-item--hidden {
+    display: none;
 }
 
 .todo-item__button {
