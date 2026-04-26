@@ -218,3 +218,16 @@ function checkedItem(event) {
     }
   }
 }
+
+const header = document.querySelector(".header")
+
+header.addEventListener("click", showFilterMenu)
+
+function showFilterMenu(event) {
+  if (event.target.hasAttribute("data-header-form-button")) {
+    const filterList = document.querySelector(".filter__list")
+
+    event.target.classList.toggle('filter__button--active')
+    filterList.classList.toggle('filter__list--active')
+  }
+}
