@@ -78,10 +78,10 @@
   }
 
   &:hover {
-    backdrop-filter: calc(var(--blur) + 5px);
+    scale: 1.01;
   }
   &:active {
-    scale: 0.99;
+    scale: 0.98;
   }
 }
 
@@ -140,15 +140,16 @@
   }
 }
 .filter__list {
-  position: absolute;
+  position: absolute;;
   top: 0%;
   opacity: 0;
+  visibility: hidden;
   left: 0;
-  transition-duration: var(--transition-duration);
-
+  transition: opacity 0.1s ease, top 0.25s ease;
 }
 .filter__list--active {
   top: 100%;
+  visibility: visible;
   opacity: 1;
 }
 
@@ -212,7 +213,7 @@
 }
 
 .checked-item {
-  opacity: 0.7;
+  opacity: 0.4;
 }
 
 .checked-item .todo__list-text {

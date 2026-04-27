@@ -86,15 +86,15 @@ function addItem(event) {
   event.preventDefault();
   let formInput = document.querySelector(".header-form__input");
   let inputText = formInput.value;
-  
+
   if (inputText !== "") {
     list.prepend(createTodoElement(inputText));
     let todos = getStorageTodos();
     todos.push(inputText);
     saveTodos(todos);
-    
+
     formInput.value = "";
-    resetFilters()
+    resetFilters();
   }
 }
 
@@ -106,13 +106,49 @@ function deleteItem(event) {
     event.target.getAttribute("data-action") === "delete"
   ) {
     let listItem = event.target.closest("li");
-
     let taskText = listItem.querySelector(".todo__list-text").textContent;
+
+    const allItems = [...list.querySelectorAll(".todo__list-item")];
+    const oldPositions = allItems.map(
+      (item) => item.getBoundingClientRect().top,
+    );
 
     listItem.classList.add("todo__list-item--removing");
 
     listItem.addEventListener("animationend", function () {
       listItem.remove();
+
+      const remainingItems = [...list.querySelectorAll(".todo__list-item")];
+
+      remainingItems.forEach((item) => {
+        const oldIndex = allItems.indexOf(item);
+        if (oldIndex !== -1) {
+          const newY = item.getBoundingClientRect().top;
+          const diffY = oldPositions[oldIndex] - newY;
+
+          if (diffY !== 0) {
+            item.style.transform = `translateY(${diffY}px)`;
+            item.style.transition = "none";
+            item.offsetHeight;
+            item.style.transition = "transform 0.5s ease";
+            item.style.transform = "translateY(0)";
+          }
+        }
+      });
+
+      if (remainingItems.length > 0) {
+        remainingItems[0].addEventListener(
+          "transitionend",
+          function clean() {
+            remainingItems.forEach((item) => {
+              item.style.transform = "";
+              item.style.transition = "";
+            });
+            remainingItems[0].removeEventListener("transitionend", clean);
+          },
+          { once: true },
+        );
+      }
 
       let todos = getStorageTodos();
       let checkedTodos = getStorageCheckedTodos();
@@ -130,7 +166,6 @@ function deleteItem(event) {
     });
   }
 }
-
 list.addEventListener("change", checkedItem);
 
 function checkedItem(event) {
@@ -147,28 +182,38 @@ function checkedItem(event) {
     if (event.target.checked) {
       let index = todos.indexOf(taskText);
 
-      let positionYOld = listItem.getBoundingClientRect().top;
+      const allItems = [...list.querySelectorAll(".todo__list-item")];
+      const oldPositions = allItems.map(
+        (item) => item.getBoundingClientRect().top,
+      );
+
       list.append(listItem);
-      let positionYNew = listItem.getBoundingClientRect().top;
 
-      let differenceY = positionYOld - positionYNew;
-      if (differenceY !== 0) {
-        listItem.style.transform = `translateY(${differenceY}px)`;
-        listItem.style.transition = "none";
+      allItems.forEach((item, i) => {
+        const newY = item.getBoundingClientRect().top;
+        const diffY = oldPositions[i] - newY;
 
-        requestAnimationFrame(() => {
-          setTimeout(() => {
-            listItem.style.transition =
-              "transform 0.5s cubic-bezier(0.25, 0.1, 0.25, 1)";
-            listItem.style.transform = "translateY(0)";
-          }, 10);
-        });
+        if (diffY !== 0) {
+          item.style.transform = `translateY(${diffY}px)`;
+          item.style.transition = "none";
+          item.offsetHeight;
+          item.style.transition = "transform 0.5s ease";
+          item.style.transform = "translateY(0)";
+        }
+      });
 
-        listItem.addEventListener(
+      const firstMoved = allItems.find(
+        (item, i) => oldPositions[i] - item.getBoundingClientRect().top !== 0,
+      );
+      if (firstMoved) {
+        firstMoved.addEventListener(
           "transitionend",
-          function onEnd() {
-            listItem.style.transform = "";
-            listItem.style.transition = "";
+          function clean() {
+            allItems.forEach((item) => {
+              item.style.transform = "";
+              item.style.transition = "";
+            });
+            firstMoved.removeEventListener("transitionend", clean);
           },
           { once: true },
         );
@@ -184,25 +229,38 @@ function checkedItem(event) {
     } else {
       let index = checkedTodos.indexOf(taskText);
 
-      let positionYOld = listItem.getBoundingClientRect().top;
-      list.prepend(listItem);
-      let positionYNew = listItem.getBoundingClientRect().top;
-      let differenceY = positionYOld - positionYNew;
-      if (differenceY !== 0) {
-        listItem.style.transform = `translateY(${differenceY}px)`;
-        listItem.style.transition = "none";
+      const allItems = [...list.querySelectorAll(".todo__list-item")];
+      const oldPositions = allItems.map(
+        (item) => item.getBoundingClientRect().top,
+      );
 
-        requestAnimationFrame(() => {
-          setTimeout(() => {
-            listItem.style.transition = "transform 0.5s ease";
-            listItem.style.transform = "translateY(0)";
-          }, 10);
-        });
-        listItem.addEventListener(
+      list.prepend(listItem);
+
+      allItems.forEach((item, i) => {
+        const newY = item.getBoundingClientRect().top;
+        const diffY = oldPositions[i] - newY;
+
+        if (diffY !== 0) {
+          item.style.transform = `translateY(${diffY}px)`;
+          item.style.transition = "none";
+          item.offsetHeight;
+          item.style.transition = "transform 0.5s ease";
+          item.style.transform = "translateY(0)";
+        }
+      });
+
+      const firstMoved = allItems.find(
+        (item, i) => oldPositions[i] - item.getBoundingClientRect().top !== 0,
+      );
+      if (firstMoved) {
+        firstMoved.addEventListener(
           "transitionend",
-          function onEnd() {
-            listItem.style.transform = "";
-            listItem.style.transition = "";
+          function clean() {
+            allItems.forEach((item) => {
+              item.style.transform = "";
+              item.style.transition = "";
+            });
+            firstMoved.removeEventListener("transitionend", clean);
           },
           { once: true },
         );
@@ -231,7 +289,6 @@ function showFilterMenu(event) {
 
 filterList.addEventListener("click", selectFilter);
 
-
 function selectFilter(event) {
   if (event.target.classList.contains("filter-list__option")) {
     const allItems = [...list.querySelectorAll(".todo__list-item")];
@@ -245,7 +302,7 @@ function selectFilter(event) {
     }
     switch (event.target.id) {
       case "all":
-        resetFilters()
+        resetFilters();
         break;
 
       case "incomplete":
@@ -266,8 +323,8 @@ function selectFilter(event) {
         }
         filterButton.textContent = "completed";
         break;
-      }
-    filterList.classList.remove("filter__list--active")
+    }
+    filterList.classList.remove("filter__list--active");
   }
 }
 
