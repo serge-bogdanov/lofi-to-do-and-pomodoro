@@ -71,7 +71,7 @@
     content: "";
     width: 90px;
     height: 90px;
-    background: url("../icons/plus.svg") center/cover no-repeat;
+    background: url("../icons/Plus.svg") center/cover no-repeat;
     backdrop-filter: var(--blur);
     border: var(--border);
     border-radius: 50%;

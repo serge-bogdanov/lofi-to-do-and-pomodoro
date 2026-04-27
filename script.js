@@ -324,6 +324,7 @@ function selectFilter(event) {
         filterButton.textContent = "completed";
         break;
     }
+    filterButton.classList.remove("filter__button--active");
     filterList.classList.remove("filter__list--active");
   }
 }
