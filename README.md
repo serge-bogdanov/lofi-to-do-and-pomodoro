@@ -4,7 +4,7 @@
 
 ![Скриншот приложения](src/images/preview.webp)
 
-🔗 [Открыть приложение](https://serge-bogdanov.github.io/lofi-to-do-and-pomodoro/)
+🔗 [Открыть приложение](https://serge-bogdanov.github.io/lofi-to-do-list/)
 
 ## ✨ Фичи
 
